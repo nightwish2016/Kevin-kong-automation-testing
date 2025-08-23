@@ -6,7 +6,9 @@
   "scripts": {
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down --remove-orphans && docker container prune -f",
-    "docker:cleanup": "docker stop kong-ee-database kong-cp || true && docker rm kong-ee-database kong-cp || true && docker-compose down --remove-orphans && docker container prune -f",
+    "docker:force-stop": "docker stop kong-ee-database kong-cp 2>nul || echo \"Containers not running\"",
+    "docker:force-rm": "docker rm kong-ee-database kong-cp 2>nul || echo \"Containers not found\"",
+    "docker:cleanup": "npm run docker:force-stop && npm run docker:force-rm && docker-compose down --remove-orphans && docker container prune -f",
     "docker:logs": "docker-compose logs -f",
     "docker:wait": "node scripts/wait-for-kong.js",
     "cypress:open": "cypress open",
