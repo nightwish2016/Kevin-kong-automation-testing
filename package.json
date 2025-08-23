@@ -1,0 +1,36 @@
+{
+  "name": "kong-automation",
+  "version": "1.0.0",
+  "description": "Kong service and route automation using Cypress",
+  "main": "index.js",
+  "scripts": {
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:wait": "node scripts/wait-for-kong.js",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test": "npm run docker:up && npm run docker:wait && cypress run && npm run docker:down",
+    "report:clean": "if exist mochawesome-report\\*.json del /q mochawesome-report\\*.json && if exist mochawesome-report\\mochawesome-report rmdir /s /q mochawesome-report\\mochawesome-report",
+    "test:mochawesome": "npm run report:clean && npm run docker:up && npm run docker:wait && cypress run --reporter mochawesome && npm run docker:down",
+    "test:dev": "cypress run",
+    "mochawesome:merge": "npx mochawesome-merge mochawesome-report/mochawesome*.json -o mochawesome-report/merged-report.json",
+    "mochawesome:generate": "npx mochawesome-report-generator mochawesome-report/merged-report.json --reportDir mochawesome-report --inline",
+    "mochawesome:open": "start mochawesome-report\\mochawesome-report\\merged-report.html",
+    "report:generate": "npm run mochawesome:merge && npm run mochawesome:generate && npm run mochawesome:open"
+  },
+  "devDependencies": {
+    "cypress": "^13.6.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^5.0.0",
+    "mochawesome-report-generator": "^6.2.0"
+  },
+  "keywords": [
+    "kong",
+    "automation",
+    "cypress",
+    "testing"
+  ],
+  "author": "",
+  "license": "MIT"
+}
