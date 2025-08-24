@@ -9,7 +9,7 @@ describe('Kong Route Automation', () => {
     cy.visit('/workspaces')
   })
 
-  it('should add a new route to Kong', () => {
+  it('Add a new route to Kong', () => {
     // Navigate to default workspace
     cy.contains('default').click()
     
@@ -225,7 +225,7 @@ describe('Kong Route Automation', () => {
     })
   })
 
-  it('should create route with advanced configuration', () => {
+  it('Create route with advanced configuration', () => {
     cy.navigateToDefaultWorkspace()
     cy.contains('Routes').click()
     
@@ -441,127 +441,5 @@ describe('Kong Route Automation', () => {
     
   })
 
-  it.skip('should link route to existing service', () => {
-    // First ensure a service exists
-    cy.createService()
-    
-    // Then create route
-    cy.navigateToDefaultWorkspace()
-    cy.contains('Routes').click()
-    
-    // Use flexible button selection logic
-    cy.get('body').then(($body) => {
-      if ($body.find('[data-testid="empty-state-action"]').length > 0) {
-        cy.get('[data-testid="empty-state-action"]').click()
-      } else if ($body.find('[data-testid="new-route-button"]').length > 0) {
-        cy.get('[data-testid="new-route-button"]').click()
-      } else if ($body.find('[data-testid*="new-route"]').length > 0) {
-        cy.get('[data-testid*="new-route"]').first().click()
-      } else if ($body.find(':contains("New route")').length > 0) {
-        cy.contains('New route').click()
-      } else {
-        cy.get('button:contains("New"), a:contains("New"), button:contains("Add"), button:contains("Create")').first().click()
-      }
-    })
-    
-    cy.fixture('kong-data').then((data) => {
-      const route = data.linkedRoute
-      
-      // Route name - use flexible selectors
-      cy.get('body').then(($body) => {
-        if ($body.find('input[name="name"]').length > 0) {
-          cy.get('input[name="name"]').clear().type(route.name)
-        } else if ($body.find('input[placeholder*="name"], input[id*="name"]').length > 0) {
-          cy.get('input[placeholder*="name"], input[id*="name"]').first().clear().type(route.name)
-        } else {
-          cy.log('Name field not found, continuing without setting name')
-        }
-      })
-      
-      // Service selection - handle the specific testid input
-      cy.get('body').then(($body) => {
-        // Look for the specific route-form-service-id input
-        if ($body.find('input[data-testid="route-form-service-id"]').length > 0) {
-          cy.log('Found route-form-service-id input field')
-          // Click the input to open dropdown
-          cy.get('input[data-testid="route-form-service-id"]').click()
-          cy.wait(1000)
-          
-          // Look for dropdown options or service list
-          cy.get('body').then(($dropdownBody) => {
-            // Try multiple selectors for dropdown options
-            if ($dropdownBody.find(`li:contains("${data.service.name}"), .option:contains("${data.service.name}"), [role="option"]:contains("${data.service.name}")`).length > 0) {
-              cy.get(`li:contains("${data.service.name}"), .option:contains("${data.service.name}"), [role="option"]:contains("${data.service.name}")`).first().click()
-            } else if ($dropdownBody.find(`:contains("${data.service.name}")`).length > 0) {
-              cy.contains(data.service.name).first().click()
-            } else {
-              cy.log(`Service ${data.service.name} not found in dropdown options`)
-              // Try typing the service name directly
-              cy.get('input[data-testid="route-form-service-id"]').type(data.service.name)
-              cy.wait(500)
-              cy.get('body').then(($typeBody) => {
-                if ($typeBody.find(`:contains("${data.service.name}")`).length > 0) {
-                  cy.contains(data.service.name).first().click()
-                }
-              })
-            }
-          })
-          cy.log(`Selected service: ${data.service.name}`)
-          
-        } else if ($body.find('input[placeholder*="Select a service"], input[placeholder*="service"]').length > 0) {
-          cy.log('Found service placeholder input field')
-          // Click the input to open dropdown
-          cy.get('input[placeholder*="Select a service"], input[placeholder*="service"]').first().click()
-          cy.wait(1000)
-          
-          // Try to find and click the service
-          cy.get('body').then(($dropdownBody) => {
-            if ($dropdownBody.find(`:contains("${data.service.name}")`).length > 0) {
-              cy.contains(data.service.name).first().click()
-            } else {
-              // Try typing the service name
-              cy.get('input[placeholder*="Select a service"], input[placeholder*="service"]').first().type(data.service.name)
-              cy.wait(500)
-              cy.contains(data.service.name).first().click()
-            }
-          })
-          
-        } else if ($body.find('.dropdown, .select-dropdown, [role="combobox"]').length > 0) {
-          cy.log('Found dropdown component')
-          cy.get('.dropdown, .select-dropdown, [role="combobox"]').first().click()
-          cy.wait(500)
-          cy.contains(data.service.name).click()
-          
-        } else if ($body.find('select[name="service"]').length > 0) {
-          cy.log(`Found service select, attempting to select: ${data.service.name}`)
-          cy.get('select[name="service"]').should('be.visible').click()
-          cy.wait(500)
-          cy.get('select[name="service"]').select(data.service.name)
-          cy.get('select[name="service"]').should('have.value', data.service.name)
-          cy.log(`Successfully selected service: ${data.service.name}`)
-          
-        } else {
-          cy.log('Service selection field not found')
-        }
-      })
-      
-      // Paths - use flexible selectors
-      cy.get('body').then(($body) => {
-        if ($body.find('input[name="paths[0]"]').length > 0) {
-          cy.get('input[name="paths[0]"]').clear().type(route.paths[0])
-        } else if ($body.find('[data-testid="route-form-paths-input-1"]').length > 0) {
-          cy.get('[data-testid="route-form-paths-input-1"]').clear().type(route.paths[0])
-        } else if ($body.find('input[name*="path"]').length > 0) {
-          cy.get('input[name*="path"]').first().clear().type(route.paths[0])
-        } else if ($body.find('input[placeholder*="path"], input[placeholder*="/api"]').length > 0) {
-          cy.get('input[placeholder*="path"], input[placeholder*="/api"]').first().clear().type(route.paths[0])
-        } else {
-          cy.log('Path field not found')
-        }
-      })
-    })
-    
-    cy.get('button[type="submit"]').contains('Save').click()
-    cy.contains('Route created successfully').should('be.visible')
-  })
+ 
 })

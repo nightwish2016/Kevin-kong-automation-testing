@@ -9,7 +9,7 @@ describe('Kong Service Automation', () => {
     cy.visit('/workspaces')
   })
 
-  it('should add a new service to Kong', () => {
+  it('Add a new service to Kong', () => {
     // Navigate to default workspace
     cy.contains('default').click()
     
@@ -71,7 +71,7 @@ describe('Kong Service Automation', () => {
     })
   })
 
-  it('should handle service creation with advanced options', () => {
+  it('Handle service creation with advanced options', () => {
     cy.navigateToDefaultWorkspace()
     cy.contains('Services').click()
     

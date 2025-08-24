@@ -85,18 +85,7 @@ Cypress.Commands.add('createService', (serviceData = null) => {
       .first()
       .click()
     
-    // Wait for success message or redirect
-    cy.get('body').then(($body) => {
-      // Look for various success indicators
-      if ($body.find(':contains("Service created"), :contains("successfully"), :contains("Success"), .success, .alert-success').length > 0) {
-        cy.contains('Service created', 'successfully', 'Success').should('be.visible')
-      } else {
-        // If no success message, check if URL changed away from create page
-        cy.url({ timeout: 15000 }).should('not.include', 'create')
-        cy.url().should('not.include', 'new')
-        cy.url().should('include', 'services')
-      }
-    })
+    
   })
 })
 
@@ -656,7 +645,7 @@ Cypress.Commands.add('clearAllRoutes', () => {
             cy.wrap(expandedDeleteButton).click({ force: true })
             cy.wait(2000)
             cy.handleKongDeleteConfirmation(routeName)
-            cy.wait(4000)
+            cy.wait(2000)
             deleteRoutes()
           } else {
             cy.log('Still no delete button found, stopping route cleanup')

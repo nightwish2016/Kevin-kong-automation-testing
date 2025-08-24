@@ -17,7 +17,7 @@ describe('Kong Complete Workflow', () => {
   //   cy.clearAllServices()
   // })
 
-  it('should complete full service and route creation workflow', () => {
+  it('Complete full service and route creation workflow', () => {
     cy.fixture('kong-data').then((data) => {
       // Step 1: Create a service
       cy.navigateToDefaultWorkspace()
@@ -46,7 +46,7 @@ describe('Kong Complete Workflow', () => {
     })
   })
 
-  it('should create multiple services and routes', () => {
+  it('Create multiple services and routes', () => {
     cy.fixture('kong-data').then((data) => {
       // Create multiple services
       data.testData.services.forEach((service, index) => {
@@ -77,7 +77,7 @@ describe('Kong Complete Workflow', () => {
     })
   })
 
-  it('should handle service creation errors gracefully', () => {
+  it('Handle service creation errors gracefully', () => {
     cy.navigateToDefaultWorkspace()
     cy.contains('Services').click()
     
@@ -157,5 +157,63 @@ describe('Kong Complete Workflow', () => {
     cy.log('Verified that Save button is disabled due to invalid URL')
     
     cy.log('Successfully detected error validation for invalid service URL')
+  })
+
+  it('Create login service and route then call API endpoint', () => {
+    cy.fixture('kong-data').then((data) => {
+      // Step 1: Create login service
+      const loginService = {
+        name: 'login-service',
+        url: 'http://104.168.218.218:5000'
+      }
+      
+      cy.createService(loginService)
+      
+      // Verify service exists
+      cy.navigateToDefaultWorkspace()
+      cy.contains('Services').click()
+      cy.contains(loginService.name).should('be.visible')
+      
+      // Step 2: Create login route
+      const loginRoute = {
+        name: 'login-route',
+        service: loginService.name,
+        paths: ['/api/v1/login'],
+        methods: ['POST']
+      }
+      
+      cy.contains('Routes').click()
+      cy.createRoute(loginRoute)
+      
+      // Verify route exists
+      cy.contains(loginRoute.name).should('be.visible')
+      
+      // Step 3: Test the API endpoint through Kong proxy
+      cy.request({
+        method: 'POST',
+        url: 'http://localhost:8000/api/v1/login',
+        body: {
+          email: 'kzhou2017@outlook.com',
+          password: '123'
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        failOnStatusCode: false // Allow non-2xx responses
+      }).then((response) => {
+        // Log the response for debugging
+        cy.log(`API Response Status: ${response.status}`)
+        cy.log(`API Response Body: ${JSON.stringify(response.body)}`)
+        
+        // Verify the request went through Kong (check for Kong headers)
+        expect(response.headers).to.have.property('via')
+        expect(response.headers.via).to.contain('kong')
+        
+        // Verify successful login response
+        expect(response.status).to.equal(200)
+        expect(response.body).to.have.property('UserName')
+        expect(response.body.UserName).to.equal('kevin')
+      })
+    })
   })
 })
