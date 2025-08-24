@@ -54,7 +54,7 @@ pipeline {
                 script {
                     echo "Cleaning up any existing Docker containers"
                     // Clean up any existing containers
-                    bat 'npm run docker:down || exit 0'
+                    bat 'npm run docker:cleanup || exit 0'
                     bat 'rmdir /S /Q mochawesome-report || exit 0'
                 }
             }
