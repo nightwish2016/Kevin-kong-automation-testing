@@ -17,10 +17,12 @@
     "report:clean": "if exist mochawesome-report\\*.json del /q mochawesome-report\\*.json && if exist mochawesome-report\\mochawesome-report rmdir /s /q mochawesome-report\\mochawesome-report",
     "test:mochawesome": "npm run report:clean && npm run docker:cleanup && npm run docker:up && npm run docker:wait && cypress run --reporter mochawesome && npm run docker:down",
     "test:dev": "cypress run",
+    "test:service": "npm run docker:cleanup && npm run docker:up && npm run docker:wait && cypress run --spec \"cypress/e2e/kong-service.cy.js\" && npm run docker:down",
     "mochawesome:merge": "npx mochawesome-merge mochawesome-report/mochawesome*.json -o mochawesome-report/merged-report.json",
     "mochawesome:generate": "npx mochawesome-report-generator mochawesome-report/merged-report.json --reportDir mochawesome-report --inline",
     "mochawesome:open": "start mochawesome-report\\mochawesome-report\\merged-report.html",
-    "report:generate": "npm run mochawesome:merge && npm run mochawesome:generate && npm run mochawesome:open"
+    "report:generate": "npm run mochawesome:merge && npm run mochawesome:generate && npm run mochawesome:open",
+    "report:generate:ci": "npm run mochawesome:merge && npm run mochawesome:generate"
   },
   "devDependencies": {
     "cypress": "^13.6.0",
