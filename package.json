@@ -14,7 +14,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "test": "npm run docker:cleanup && npm run docker:up && npm run docker:wait && cypress run && npm run docker:down",
-    "test:ci": "npm run docker:up && npm run docker:wait && cypress run",
+    "test:ci": "npm run docker:up && npm run docker:wait && cypress run --browser chrome",
     "report:clean": "if exist mochawesome-report\\*.json del /q mochawesome-report\\*.json && if exist mochawesome-report\\mochawesome-report rmdir /s /q mochawesome-report\\mochawesome-report",
     "test:mochawesome": "npm run report:clean && npm run docker:cleanup && npm run docker:up && npm run docker:wait && cypress run --reporter mochawesome && npm run docker:down",
     "test:dev": "cypress run",
