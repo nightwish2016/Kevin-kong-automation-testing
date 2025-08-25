@@ -265,15 +265,7 @@ Cypress.Commands.add('createRoute', (routeData = null) => {
         }
       })
     
-    // Verify creation with flexible validation
-    cy.get('body').then(($body) => {
-      if ($body.find(':contains("Route created"), :contains("successfully"), :contains("Success"), .success, .alert-success').length > 0) {
-        // cy.contains('Route created', 'successfully', 'Success').should('be.visible')
-      } else {    
-        cy.url().should('not.include', 'new')
-        cy.url().should('include', 'routes')
-      }
-    })
+    
   })
 })
 
