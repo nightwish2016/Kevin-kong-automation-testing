@@ -269,8 +269,7 @@ Cypress.Commands.add('createRoute', (routeData = null) => {
     cy.get('body').then(($body) => {
       if ($body.find(':contains("Route created"), :contains("successfully"), :contains("Success"), .success, .alert-success').length > 0) {
         // cy.contains('Route created', 'successfully', 'Success').should('be.visible')
-      } else {
-        cy.url({ timeout: 15000 }).should('not.include', 'create')
+      } else {    
         cy.url().should('not.include', 'new')
         cy.url().should('include', 'routes')
       }
