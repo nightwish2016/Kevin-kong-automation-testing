@@ -196,6 +196,10 @@ cy.handleConfirmation()             // Handle confirmation dialogs
 
 ## 🏗️ Jenkins CI/CD Integration
 
+### Jenkins URL:
+
+https://29a048e3c411.ngrok-free.app/view/Kong/ (**host on my local laptop,The address will be changed once I restarted my laptop**)
+
 ### Pipeline Architecture
 
 The Jenkins pipeline for this project contains the following stages:
