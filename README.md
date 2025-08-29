@@ -198,7 +198,7 @@ cy.handleConfirmation()             // Handle confirmation dialogs
 
 ### Jenkins URL:
 
-https://29a048e3c411.ngrok-free.app/view/Kong/ (**host on my local laptop,The address will be changed once I restarted my laptop**)
+  https://b34880277e39.ngrok-free.app/view/Kong/ (**host on my local laptop,The address will be changed once I restarted my laptop**)
 
 ### Pipeline Architecture
 
