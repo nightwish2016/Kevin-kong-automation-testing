@@ -864,7 +864,10 @@ serviceNames.forEach(name => {
 npm run cypress:open
 
 # Use cy.pause() in tests to pause execution
+Please reference https://docs.cypress.io/app/guides/debugging
 cy.pause()  // Allow manual inspection of current state
+cy.debug()
+Debugger
 ```
 
 **2. Logging and Screenshots**:

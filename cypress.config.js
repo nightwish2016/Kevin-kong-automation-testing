@@ -8,6 +8,9 @@ module.exports = defineConfig({
     defaultCommandTimeout: 10000,
     requestTimeout: 10000,
     responseTimeout: 10000,
+    screenshotOnRunFailure: true,
+    video: true,
+    screenshotsFolder: 'cypress/screenshots', // screenshot path
     setupNodeEvents(on, config) {
       return config
     }

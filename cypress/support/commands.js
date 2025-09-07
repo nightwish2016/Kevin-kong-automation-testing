@@ -14,28 +14,38 @@ Cypress.Commands.add('createService', (serviceData = null) => {
   
   // Try to find and click new gateway service button with different possible selectors
   cy.get('body').then(($body) => {
-    if ($body.find('[data-testid="empty-state-action"]').length > 0) {
+    // if ($body.find('[data-testid="empty-state-action"]').length > 0) {
+    //   cy.get('[data-testid="empty-state-action"]').click()
+    // } else if ($body.find('[data-testid="new-gateway-service"]').length > 0) {
+    //   cy.get('[data-testid="new-gateway-service"]').click()
+    // } else if ($body.find('[data-testid*="new-service"]').length > 0) {
+    //   cy.get('[data-testid*="new-service"]').first().click()
+    // } else if ($body.find('button:contains("New gateway service")').length > 0) {
+    //   cy.get('button:contains("New gateway service")').click()
+    // } else if ($body.find('a:contains("New gateway service")').length > 0) {
+    //   cy.get('a:contains("New gateway service")').click()
+    // } else if ($body.find(':contains("New gateway service")').length > 0) {
+    //   cy.contains('New gateway service').click()
+    // } else if ($body.find('[data-testid="new-service-button"]').length > 0) {
+    //   cy.get('[data-testid="new-service-button"]').click()
+    // } else if ($body.find('button:contains("New Service")').length > 0) {
+    //   cy.get('button:contains("New Service")').click()
+    // } else if ($body.find('a:contains("New Service")').length > 0) {
+    //   cy.get('a:contains("New Service")').click()
+    // } else {
+    //   // Fallback: look for any button with "New" or "Add" or "Create"
+    //   cy.get('button:contains("New"), a:contains("New"), button:contains("Add"), button:contains("Create")').first().click()
+    // }
+    //  cy.get('[data-testid="empty-state-action"]').click()
+      if ($body.find('[data-testid="empty-state-action"]').length > 0) {
       cy.get('[data-testid="empty-state-action"]').click()
-    } else if ($body.find('[data-testid="new-gateway-service"]').length > 0) {
-      cy.get('[data-testid="new-gateway-service"]').click()
-    } else if ($body.find('[data-testid*="new-service"]').length > 0) {
-      cy.get('[data-testid*="new-service"]').first().click()
-    } else if ($body.find('button:contains("New gateway service")').length > 0) {
-      cy.get('button:contains("New gateway service")').click()
-    } else if ($body.find('a:contains("New gateway service")').length > 0) {
-      cy.get('a:contains("New gateway service")').click()
-    } else if ($body.find(':contains("New gateway service")').length > 0) {
-      cy.contains('New gateway service').click()
-    } else if ($body.find('[data-testid="new-service-button"]').length > 0) {
-      cy.get('[data-testid="new-service-button"]').click()
-    } else if ($body.find('button:contains("New Service")').length > 0) {
-      cy.get('button:contains("New Service")').click()
-    } else if ($body.find('a:contains("New Service")').length > 0) {
-      cy.get('a:contains("New Service")').click()
-    } else {
-      // Fallback: look for any button with "New" or "Add" or "Create"
-      cy.get('button:contains("New"), a:contains("New"), button:contains("Add"), button:contains("Create")').first().click()
-    }
+     }
+     if ($body.find('[data-testid="toolbar-add-gateway-service"]').length > 0) {
+       cy.get('[data-testid="toolbar-add-gateway-service"]').click()
+     }
+      else {
+      cy.log('No known new service button found, attempting generic selector')
+      }
   })
   
   if (!serviceData) {
@@ -44,6 +54,7 @@ Cypress.Commands.add('createService', (serviceData = null) => {
     })
   }
   
+  cy.wait(2000)
   cy.then(() => {
     // Fill in service form - break up chains to avoid DOM detachment
     cy.get('input[name="name"], input[placeholder*="name"], input[id*="name"]')
@@ -96,22 +107,32 @@ Cypress.Commands.add('createRoute', (routeData = null) => {
   
   // Try to find and click new route button
   cy.get('body').then(($body) => {
+    // if ($body.find('[data-testid="empty-state-action"]').length > 0) {
+    //   cy.get('[data-testid="empty-state-action"]').click()
+    // } else if ($body.find('[data-testid="new-route-button"]').length > 0) {
+    //   cy.get('[data-testid="new-route-button"]').click()
+    // } else if ($body.find('[data-testid*="new-route"]').length > 0) {
+    //   cy.get('[data-testid*="new-route"]').first().click()
+    // } else if ($body.find('button:contains("New route")').length > 0) {
+    //   cy.get('button:contains("New route")').click()
+    // } else if ($body.find('a:contains("New route")').length > 0) {
+    //   cy.get('a:contains("New route")').click()
+    // } else if ($body.find('button:contains("New Route")').length > 0) {
+    //   cy.get('button:contains("New Route")').click()
+    // } else if ($body.find('a:contains("New Route")').length > 0) {
+    //   cy.get('a:contains("New Route")').click()
+    // } else {
+    //   cy.get('button:contains("New"), a:contains("New"), button:contains("Add"), button:contains("Create")').first().click()
+    // }
     if ($body.find('[data-testid="empty-state-action"]').length > 0) {
       cy.get('[data-testid="empty-state-action"]').click()
-    } else if ($body.find('[data-testid="new-route-button"]').length > 0) {
-      cy.get('[data-testid="new-route-button"]').click()
-    } else if ($body.find('[data-testid*="new-route"]').length > 0) {
-      cy.get('[data-testid*="new-route"]').first().click()
-    } else if ($body.find('button:contains("New route")').length > 0) {
-      cy.get('button:contains("New route")').click()
-    } else if ($body.find('a:contains("New route")').length > 0) {
-      cy.get('a:contains("New route")').click()
-    } else if ($body.find('button:contains("New Route")').length > 0) {
-      cy.get('button:contains("New Route")').click()
-    } else if ($body.find('a:contains("New Route")').length > 0) {
-      cy.get('a:contains("New Route")').click()
-    } else {
-      cy.get('button:contains("New"), a:contains("New"), button:contains("Add"), button:contains("Create")').first().click()
+    }
+    else if($body.find('[data-testid="toolbar-add-route"]').length > 0) {
+      cy.get('[data-testid="toolbar-add-route"]').click()
+    }
+    else
+    {
+      cy.log('No known new route button found, attempting generic selector')
     }
   })
   
@@ -138,98 +159,113 @@ Cypress.Commands.add('createRoute', (routeData = null) => {
       // Service selection - custom dropdown component
       if (routeData.service) {
         // Look for the custom dropdown component
-        if ($body.find('input[value*="kevin-test-service"], input[placeholder*="service"]').length > 0) {
-          cy.log('Found custom service dropdown input field')
-          cy.get('input[value*="kevin-test-service"], input[placeholder*="service"]').first().click()
-          cy.wait(500)
-          cy.contains(routeData.service).click()
+        // if ($body.find('input[value*="kevin-test-service"], input[placeholder*="service"]').length > 0) {
+        //   cy.log('Found custom service dropdown input field')
+        //   cy.get('input[value*="kevin-test-service"], input[placeholder*="service"]').first().click()
+        //   cy.wait(500)
+        //   cy.contains(routeData.service).click()
           
-        } else if ($body.find('.dropdown, .select-dropdown, [role="combobox"]').length > 0) {
-          cy.log('Found dropdown component')
-          cy.get('.dropdown, .select-dropdown, [role="combobox"]').first().click()
-          cy.wait(500)
-          cy.contains(routeData.service).click()
+        // } else if ($body.find('.dropdown, .select-dropdown, [role="combobox"]').length > 0) {
+        //   cy.log('Found dropdown component')
+        //   cy.get('.dropdown, .select-dropdown, [role="combobox"]').first().click()
+        //   cy.wait(500)
+        //   cy.contains(routeData.service).click()
           
-        } else if ($body.find('select[name="service"]').length > 0) {
-          cy.get('select[name="service"]').should('be.visible').click()
-          cy.wait(500)
-          cy.get('select[name="service"]').select(routeData.service)
+        // } else if ($body.find('select[name="service"]').length > 0) {
+        //   cy.get('select[name="service"]').should('be.visible').click()
+        //   cy.wait(500)
+        //   cy.get('select[name="service"]').select(routeData.service)
           
-        } else if ($body.find('input[name*="service"], input[placeholder*="service"]').length > 0) {
-          cy.get('input[name*="service"], input[placeholder*="service"]').first().click()
-          cy.wait(500)
-          cy.contains(routeData.service).click()
+        // } else if ($body.find('input[name*="service"], input[placeholder*="service"]').length > 0) {
+        //   cy.get('input[name*="service"], input[placeholder*="service"]').first().click()
+        //   cy.wait(500)
+        //   cy.contains(routeData.service).click()
           
-        } else {
-          cy.log('Service selection field not found for route')
-        }
+        // } else {
+        //   cy.log('Service selection field not found for route')
+        // }
+  
+        cy.get('[data-testid="route-form-service-id"]', { timeout: 10000 }).click()              
+        cy.get('.route-form-service-dropdown-item>span', { timeout: 10000 }).first().click();
       }
 
       // Add paths - break up chains to avoid DOM detachment
       if (routeData.paths && routeData.paths.length > 0) {
-        if ($body.find('[data-testid="route-form-paths-input-1"]').length > 0) {
-          cy.get('[data-testid="route-form-paths-input-1"]').clear()
-          cy.get('[data-testid="route-form-paths-input-1"]').type(routeData.paths[0])
-        } else if ($body.find('input[name="paths[0]"], input[name*="path"]').length > 0) {
-          cy.get('input[name="paths[0]"], input[name*="path"]').first().clear()
-          cy.get('input[name="paths[0]"], input[name*="path"]').first().type(routeData.paths[0])
-        } else if ($body.find('input[placeholder*="path"], input[placeholder*="/api"]').length > 0) {
-          cy.get('input[placeholder*="path"], input[placeholder*="/api"]').first().clear()
-          cy.get('input[placeholder*="path"], input[placeholder*="/api"]').first().type(routeData.paths[0])
-        } else {
-          cy.log('Path field not found for route')
-        }
+        // if ($body.find('[data-testid="route-form-paths-input-1"]').length > 0) {
+        //   cy.get('[data-testid="route-form-paths-input-1"]').clear()
+        //   cy.get('[data-testid="route-form-paths-input-1"]').type(routeData.paths[0])
+        // } else if ($body.find('input[name="paths[0]"], input[name*="path"]').length > 0) {
+        //   cy.get('input[name="paths[0]"], input[name*="path"]').first().clear()
+        //   cy.get('input[name="paths[0]"], input[name*="path"]').first().type(routeData.paths[0])
+        // } else if ($body.find('input[placeholder*="path"], input[placeholder*="/api"]').length > 0) {
+        //   cy.get('input[placeholder*="path"], input[placeholder*="/api"]').first().clear()
+        //   cy.get('input[placeholder*="path"], input[placeholder*="/api"]').first().type(routeData.paths[0])
+        // } else {
+        //   cy.log('Path field not found for route')
+        // }
+        cy.get('[data-testid="route-form-paths-input-1"]')
+            .clear()
+            .type(routeData.paths[0])
       }
       
       // Select methods if available
       if (routeData.methods && routeData.methods.length > 0) {
         routeData.methods.forEach((method) => {
-          if ($body.find(`input[type="checkbox"][value="${method}"]`).length > 0) {
-            cy.get(`input[type="checkbox"][value="${method}"]`).check({ force: true })
-          } else if ($body.find(`[data-testid*="method-${method.toLowerCase()}"], [data-testid*="${method.toLowerCase()}-checkbox"]`).length > 0) {
-            cy.get(`[data-testid*="method-${method.toLowerCase()}"], [data-testid*="${method.toLowerCase()}-checkbox"]`).first().click({ force: true })
-          } else if ($body.find(`button:contains("${method}"), .method-${method.toLowerCase()}, .${method.toLowerCase()}-method`).length > 0) {
-            cy.get(`button:contains("${method}"), .method-${method.toLowerCase()}, .${method.toLowerCase()}-method`).first().click({ force: true })
-          } else if ($body.find(`label:contains("${method}")`).length > 0) {
-            cy.get(`label:contains("${method}")`).first().click({ force: true })
-          } else if ($body.find(`:contains("${method}")`).length > 0) {
-            cy.contains(method).first().click({ force: true })
-          } else {
-            cy.log(`Method selection for ${method} not found`)
-          }
+          // if ($body.find(`input[type="checkbox"][value="${method}"]`).length > 0) {
+          //   cy.get(`input[type="checkbox"][value="${method}"]`).check({ force: true })
+          // } else if ($body.find(`[data-testid*="method-${method.toLowerCase()}"], [data-testid*="${method.toLowerCase()}-checkbox"]`).length > 0) {
+          //   cy.get(`[data-testid*="method-${method.toLowerCase()}"], [data-testid*="${method.toLowerCase()}-checkbox"]`).first().click({ force: true })
+          // } else if ($body.find(`button:contains("${method}"), .method-${method.toLowerCase()}, .${method.toLowerCase()}-method`).length > 0) {
+          //   cy.get(`button:contains("${method}"), .method-${method.toLowerCase()}, .${method.toLowerCase()}-method`).first().click({ force: true })
+          // } else if ($body.find(`label:contains("${method}")`).length > 0) {
+          //   cy.get(`label:contains("${method}")`).first().click({ force: true })
+          // } else if ($body.find(`:contains("${method}")`).length > 0) {
+          //   cy.contains(method).first().click({ force: true })
+          // } else {
+          //   cy.log(`Method selection for ${method} not found`)
+          // }
+          cy.get(`button:contains("${method}"), .method-${method.toLowerCase()}, .${method.toLowerCase()}-method`).first().click({ force: true })
         })
       }
 
       // Hosts - break up chains to avoid DOM detachment
       if (routeData.hosts && routeData.hosts.length > 0) {
-        if ($body.find('[data-testid*="host"], [data-testid*="hosts"]').length > 0) {
-          cy.get('[data-testid*="host"], [data-testid*="hosts"]').first().clear()
-          cy.get('[data-testid*="host"], [data-testid*="hosts"]').first().type(routeData.hosts[0])
-        } else if ($body.find('input[name="hosts[0]"], input[name*="host"]').length > 0) {
-          cy.get('input[name="hosts[0]"], input[name*="host"]').first().clear()
-          cy.get('input[name="hosts[0]"], input[name*="host"]').first().type(routeData.hosts[0])
-        } else if ($body.find('input[placeholder*="host"], input[placeholder*="domain"]').length > 0) {
-          cy.get('input[placeholder*="host"], input[placeholder*="domain"]').first().clear()
-          cy.get('input[placeholder*="host"], input[placeholder*="domain"]').first().type(routeData.hosts[0])
-        } else {
-          cy.log('Host field not found for route')
-        }
+        // if ($body.find('[data-testid*="host"], [data-testid*="hosts"]').length > 0) {
+        //   cy.get('[data-testid*="host"], [data-testid*="hosts"]').first().clear()
+        //   cy.get('[data-testid*="host"], [data-testid*="hosts"]').first().type(routeData.hosts[0])
+        // } else if ($body.find('input[name="hosts[0]"], input[name*="host"]').length > 0) {
+        //   cy.get('input[name="hosts[0]"], input[name*="host"]').first().clear()
+        //   cy.get('input[name="hosts[0]"], input[name*="host"]').first().type(routeData.hosts[0])
+        // } else if ($body.find('input[placeholder*="host"], input[placeholder*="domain"]').length > 0) {
+        //   cy.get('input[placeholder*="host"], input[placeholder*="domain"]').first().clear()
+        //   cy.get('input[placeholder*="host"], input[placeholder*="domain"]').first().type(routeData.hosts[0])
+        // } else {
+        //   cy.log('Host field not found for route')
+        // }
+         cy.get('[data-testid="route-form-hosts-input-1"]')
+            .clear()
+            .type(routeData.hosts[0])
       }
 
       // Handle strip_path checkbox
-      if (routeData.strip_path !== undefined) {
-        if ($body.find('input[name="strip_path"], input[id*="strip"], input[data-testid*="strip"]').length > 0) {
-          const stripPathCheckbox = cy.get('input[name="strip_path"], input[id*="strip"], input[data-testid*="strip"]').first()
-          if (routeData.strip_path) {
-            stripPathCheckbox.check({ force: true })
-          } else {
-            stripPathCheckbox.uncheck({ force: true })
-          }
-          cy.log(`Set strip_path to: ${routeData.strip_path}`)
-        } else {
-          cy.log('Strip path checkbox not found')
-        }
-      }
+      // if (routeData.strip_path !== undefined) {
+      //   if ($body.find('input[name="strip_path"], input[id*="strip"], input[data-testid*="strip"]').length > 0) {
+      //     const stripPathCheckbox = cy.get('input[name="strip_path"], input[id*="strip"], input[data-testid*="strip"]').first()
+      //     if (routeData.strip_path) {
+      //       stripPathCheckbox.check({ force: true })
+      //     } else {
+      //       stripPathCheckbox.uncheck({ force: true })
+      //     }
+      //     cy.log(`Set strip_path to: ${routeData.strip_path}`)
+      //   } else {
+      //     cy.log('Strip path checkbox not found')
+      //   }
+      // }
+        if (routeData.strip_path) {
+              cy.get('[data-testid="route-form-strip-path"]').check({ force: true })
+            } else {
+              cy.get('[data-testid="route-form-strip-path"]').uncheck({ force: true })
+            }
     })
     
     // Ensure all required fields are filled before submitting
@@ -511,13 +547,24 @@ Cypress.Commands.add('clearAllServices', () => {
         const firstRow = serviceRows.first()
         let serviceName = null
         
-        // Try to extract service name from the row - try multiple cells
-        const nameCells = firstRow.find('td')
-        for (let i = 0; i < Math.min(3, nameCells.length); i++) {
-          const cellText = nameCells.eq(i).text().trim()
-          if (cellText && cellText !== '' && !cellText.includes('•')) {
-            serviceName = cellText
-            break
+        // Try to extract service name from the row - look for the name cell specifically
+        const nameCell = firstRow.find('td[data-testid="name"]')
+        if (nameCell.length > 0) {
+          const nameElement = nameCell.find('b').first()
+          if (nameElement.length > 0) {
+            serviceName = nameElement.text().trim()
+          }
+        }
+        
+        // Fallback: try multiple cells if specific name cell not found
+        if (!serviceName) {
+          const nameCells = firstRow.find('td')
+          for (let i = 0; i < Math.min(3, nameCells.length); i++) {
+            const cellText = nameCells.eq(i).text().trim()
+            if (cellText && cellText !== '' && !cellText.includes('•')) {
+              serviceName = cellText
+              break
+            }
           }
         }
         
@@ -687,21 +734,22 @@ Cypress.Commands.add('handleKongDeleteConfirmation', (entityName) => {
   
   // Try to type in the confirmation field using multiple approaches
   const attempts = [
-    () => {
-      // Attempt 1: Direct jQuery manipulation
-      cy.get('body').then(($body) => {
-        const filterInput = $body.find('input#filter-name')[0]
-        if (filterInput) {
-          cy.log('Found filter-name input, setting value directly')
-          filterInput.value = entityName
-          filterInput.dispatchEvent(new Event('input', { bubbles: true }))
-          filterInput.dispatchEvent(new Event('change', { bubbles: true }))
-        }
-      })
-    },
+    // () => {
+    //   // Attempt 1: Direct jQuery manipulation
+    //   cy.get('body').then(($body) => {
+    //     const filterInput = $body.find('input#filter-name')[0]
+    //     if (filterInput) {
+    //       cy.log('Found filter-name input, setting value directly')
+    //       filterInput.value = entityName
+    //       filterInput.dispatchEvent(new Event('input', { bubbles: true }))
+    //       filterInput.dispatchEvent(new Event('change', { bubbles: true }))
+    //     }
+    //   })
+    // },
     () => {
       // Attempt 2: Cypress invoke
-      cy.get('input#filter-name').invoke('val', entityName).trigger('input').trigger('change')
+      // cy.get('input#filter-name').invoke('val', entityName).trigger('input').trigger('change')
+      cy.get('input[data-testid="confirmation-input"]').invoke('val', entityName).trigger('input').trigger('change')
     },
     () => {
       // Attempt 3: Force type

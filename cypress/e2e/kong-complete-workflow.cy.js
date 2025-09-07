@@ -162,33 +162,35 @@ describe('Kong Complete Workflow', () => {
   it('Create login service and route then call API endpoint', () => {
     cy.fixture('kong-data').then((data) => {
       // Step 1: Create login service
-      const loginService = {
-        name: 'login-service',
-        url: 'http://104.168.218.218:5000'
-      }
+      // const loginService = {
+      //   name: 'login-service',
+      //   url: 'http://104.168.218.218:5000'
+      // }
       
-      cy.createService(loginService)
+      cy.createService(data.service)
       
       // Verify service exists
       cy.navigateToDefaultWorkspace()
       cy.contains('Services').click()
-      cy.contains(loginService.name).should('be.visible')
+      cy.contains(data.service.name).should('be.visible')
       
       // Step 2: Create login route
-      const loginRoute = {
-        name: 'login-route',
-        service: loginService.name,
-        paths: ['/api/v1/login'],
-        methods: ['POST']
-      }
+      // const loginRoute = {
+      //   name: 'login-route',
+      //   service: loginService.name,
+      //   paths: ['/api/v1/login'],
+      //   methods: ['POST'],
+      //   strip_path: false
+      // }
       
       cy.contains('Routes').click()
-      cy.createRoute(loginRoute)
+      cy.createRoute(data.route)
       
       // Verify route exists
-      cy.contains(loginRoute.name).should('be.visible')
+      cy.contains(data.route.name).should('be.visible')
       
       // Step 3: Test the API endpoint through Kong proxy
+      cy.wait(5000) // Wait a moment for Kong to propagate changes
       cy.request({
         method: 'POST',
         url: 'http://localhost:8000/api/v1/login',
@@ -202,6 +204,7 @@ describe('Kong Complete Workflow', () => {
         failOnStatusCode: false // Allow non-2xx responses
       }).then((response) => {
         // Log the response for debugging
+        debugger
         cy.log(`API Response Status: ${response.status}`)
         cy.log(`API Response Body: ${JSON.stringify(response.body)}`)
         
