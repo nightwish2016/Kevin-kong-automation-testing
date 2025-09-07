@@ -11,7 +11,7 @@ Cypress.Commands.add('navigateToDefaultWorkspace', () => {
 Cypress.Commands.add('createService', (serviceData = null) => {
   cy.navigateToDefaultWorkspace()
   cy.contains('Services').click()
-  
+  cy.wait(2000)
   // Try to find and click new gateway service button with different possible selectors
   cy.get('body').then(($body) => {
     // if ($body.find('[data-testid="empty-state-action"]').length > 0) {
@@ -37,10 +37,10 @@ Cypress.Commands.add('createService', (serviceData = null) => {
     //   cy.get('button:contains("New"), a:contains("New"), button:contains("Add"), button:contains("Create")').first().click()
     // }
     //  cy.get('[data-testid="empty-state-action"]').click()
-      if ($body.find('[data-testid="empty-state-action"]').length > 0) {
+      if ($body.find('[data-testid="empty-state-action"]', { timeout: 10000 }).length > 0) {
       cy.get('[data-testid="empty-state-action"]').click()
      }
-     if ($body.find('[data-testid="toolbar-add-gateway-service"]').length > 0) {
+     if ($body.find('[data-testid="toolbar-add-gateway-service"]', { timeout: 10000 }).length > 0) {
        cy.get('[data-testid="toolbar-add-gateway-service"]').click()
      }
       else {
@@ -54,7 +54,7 @@ Cypress.Commands.add('createService', (serviceData = null) => {
     })
   }
   
-  cy.wait(2000)
+
   cy.then(() => {
     // Fill in service form - break up chains to avoid DOM detachment
     cy.get('input[name="name"], input[placeholder*="name"], input[id*="name"]')
@@ -104,7 +104,7 @@ Cypress.Commands.add('createService', (serviceData = null) => {
 Cypress.Commands.add('createRoute', (routeData = null) => {
   cy.navigateToDefaultWorkspace()
   cy.contains('Routes').click()
-  
+  cy.wait(2000)
   // Try to find and click new route button
   cy.get('body').then(($body) => {
     // if ($body.find('[data-testid="empty-state-action"]').length > 0) {
@@ -124,10 +124,10 @@ Cypress.Commands.add('createRoute', (routeData = null) => {
     // } else {
     //   cy.get('button:contains("New"), a:contains("New"), button:contains("Add"), button:contains("Create")').first().click()
     // }
-    if ($body.find('[data-testid="empty-state-action"]').length > 0) {
+    if ($body.find('[data-testid="empty-state-action"]', { timeout: 10000 }).length > 0) {
       cy.get('[data-testid="empty-state-action"]').click()
     }
-    else if($body.find('[data-testid="toolbar-add-route"]').length > 0) {
+    else if($body.find('[data-testid="toolbar-add-route"]', { timeout: 10000 }).length > 0) {
       cy.get('[data-testid="toolbar-add-route"]').click()
     }
     else
@@ -146,10 +146,10 @@ Cypress.Commands.add('createRoute', (routeData = null) => {
     // Fill in route form - use flexible selectors
     cy.get('body').then(($body) => {
       // Route name - break up chains to avoid DOM detachment
-      if ($body.find('input[name="name"]').length > 0) {
+      if ($body.find('input[name="name"]', { timeout: 10000 }).length > 0) {
         cy.get('input[name="name"]').clear()
         cy.get('input[name="name"]').type(routeData.name)
-      } else if ($body.find('input[placeholder*="name"], input[id*="name"]').length > 0) {
+      } else if ($body.find('input[placeholder*="name"], input[id*="name"]',{ timeout: 10000 }).length > 0) {
         cy.get('input[placeholder*="name"], input[id*="name"]').first().clear()
         cy.get('input[placeholder*="name"], input[id*="name"]').first().type(routeData.name)
       } else {
